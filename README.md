@@ -5,17 +5,31 @@ Versatile configuration file loader for Ruby
 ## Desired Example Usage
 
 ```yaml
-server:
-  address: www.foo.com
-  port: 1337
+server: irc.ninthbit.net
+port: 6667
+nick: 'awesome_face'
+powerlevel: 9
+awesome: omgyes
 ```
 
 ```ruby
 require 'configru'
 
-# Stuff to load the configuration, etc
+Configru.load('foo.yml')
+Configru.defaults(
+  'server' => 'irc.freenode.net',
+  'port' => 6667,
+  'nick' => 'bot',
+  'powerlevel' => 1,
+  'awesome' => 'not at all')
+Configru.verify(
+  'server' => /\S+/,
+  'nick' => /\S+/,
+  'port' => Fixnum,
+  'powerlevel' => 1..10,
+  'awesome' => ['not at all', 'omgyes', 'meh'])
 
-puts "#{Configru.server.address}:#{Configru.server.port}"
+puts "Connecting to #{Configru.server}:#{Configru.port}"
 ```
 
 ## License
