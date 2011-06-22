@@ -1,6 +1,6 @@
 # Configru
 
-A simple YAML configuration manager
+Versatile configuration file loader for Ruby
 
 ## Desired Example Usage
 
@@ -12,8 +12,8 @@ server:
 
 ```ruby
 require 'configru'
-Configru.paths = ['~/.foo.yml', '/etc/foo.yml', './foo.yml']
-Configru.load
+
+# Stuff to load the configuration, etc
 
 puts "#{Configru.server.address}:#{Configru.server.port}"
 ```
