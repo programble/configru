@@ -1,4 +1,4 @@
-# Confooz
+# Configru
 
 A simple YAML configuration manager
 
@@ -11,11 +11,11 @@ server:
 ```
 
 ```ruby
-require 'confooz'
-Confooz.paths = ['~/.foo.yml', '/etc/foo.yml', './foo.yml']
-Confooz.load
+require 'configru'
+Configru.paths = ['~/.foo.yml', '/etc/foo.yml', './foo.yml']
+Configru.load
 
-puts "#{Confooz.server.address}:#{Confooz.server.port}"
+puts "#{Configru.server.address}:#{Configru.server.port}"
 ```
 
 ## License
