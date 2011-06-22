@@ -16,18 +16,21 @@ awesome: omgyes
 require 'configru'
 
 Configru.load('foo.yml')
+
 Configru.defaults(
   'server' => 'irc.freenode.net',
   'port' => 6667,
   'nick' => 'bot',
   'powerlevel' => 1,
   'awesome' => 'not at all')
+
 Configru.verify(
-  'server' => /\S+/,
+  'server' => /\S+/, # Must match regex
   'nick' => /\S+/,
-  'port' => Fixnum,
-  'powerlevel' => 1..10,
-  'awesome' => ['not at all', 'omgyes', 'meh'])
+  'port' => Fixnum, # Must be an instance of Fixnum
+  'powerlevel' => 1..10, # Must be within range
+  'awesome' => ['not at all', 'omgyes', 'meh'] # Must be one of these values
+)
 
 puts "Connecting to #{Configru.server}:#{Configru.port}"
 ```
