@@ -1,7 +1,10 @@
 module Configru
   class ConfigHash < Hash
     def initialize(hash={})
-      hash.each {|k, v| self[k] = v}
+      hash.each do |k, v|
+        v = ConfigHash.new(v) if v.is_a?(Hash)
+        self[k] = v
+      end
     end
     
     def [](key)
