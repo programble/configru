@@ -7,7 +7,7 @@ Versatile configuration file loader for Ruby
 ```yaml
 server: irc.ninthbit.net
 port: 6667
-nick: 'awesome_face'
+nick: awesomeface
 powerlevel: 9
 awesome: omgyes
 ```
@@ -15,22 +15,23 @@ awesome: omgyes
 ```ruby
 require 'configru'
 
-Configru.load('foo.yml')
-
-Configru.defaults(
-  'server' => 'irc.freenode.net',
-  'port' => 6667,
-  'nick' => 'bot',
-  'powerlevel' => 1,
-  'awesome' => 'not at all')
-
-Configru.verify(
-  'server' => /\S+/, # Must match regex
-  'nick' => /\S+/,
-  'port' => Fixnum, # Must be an instance of Fixnum
-  'powerlevel' => 1..10, # Must be within range
-  'awesome' => ['not at all', 'omgyes', 'meh'] # Must be one of these values
-)
+Configru.load do
+  search '~/foo.yml', '/etc/foo.yml' # Set files to look in
+  defaults do
+    server 'irc.freenode.net'
+    port 6667
+    nick 'bot'
+    powerlevel 1
+    awesome 'not at all'
+  end
+  verify do
+    server /\S+/ # Must match regex
+    nick /\S+/
+    port Fixnum # Must be an instance of
+    powerlevel 1..10 # Must be in range
+    awesome ['not at all', 'omgyes', 'meh'] # Must be one of
+  end
+end
 
 puts "Connecting to #{Configru.server}:#{Configru.port}"
 ```
