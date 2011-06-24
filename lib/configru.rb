@@ -48,7 +48,7 @@ module Configru
         criteria[key] === value
       end
       
-      raise ConfigurationError, "Configuration option #{@verify_stack.reverse.join('.')} is invalid" unless result
+      raise ConfigurationError, "Configuration option '#{@verify_stack.reverse.join('.')}' is invalid" unless result
       
       @verify_stack.shift
     end
