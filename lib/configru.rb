@@ -10,7 +10,8 @@ module Configru
 
   def self.load(&block)
     dsl = DSL::LoadDSL.new(block)
-    @search_paths = dsl.search_array
+    @files = dsl.files_array.map {|x| File.expand_path(x)}
+    @load_method = dsl.load_method
     @defaults = dsl.defaults_hash
     @verify = dsl.verify_hash
     self.reload
@@ -19,11 +20,14 @@ module Configru
   def self.reload
     @config = ConfigHash.new(@defaults)
     
-    @search_paths.each do |file|
-      file = File.expand_path(file)
-      if File.exist? file
-        @config.merge!(YAML.load_file(file))
-        break
+    case @load_method
+    when :derp
+      if file = @files.find {|file| File.file?(file)} # Intended
+        @config.merge!(YAML.load_file(file) || {})
+      end
+    when :cascade
+      @files.reverse_each do |file|
+        @config.merge!(YAML.load_file(file) || {}) if File.file?(file)
       end
     end
     

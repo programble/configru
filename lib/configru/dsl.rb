@@ -1,17 +1,18 @@
 module Configru
   module DSL
     class LoadDSL
-      attr_reader :defaults_hash, :verify_hash, :search_array
+      attr_reader :defaults_hash, :verify_hash, :files_array, :load_method
       
       def initialize(block)
         @defaults_hash = {}
         @verify_hash = {}
-        @search_array = []
+        @files_array = []
+        @load_method = :derp
         instance_eval(&block)
       end
       
       def search(*args)
-        @search_array = args
+        @files_array = args
       end
       
       def defaults(hash=nil, &block)
