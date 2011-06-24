@@ -19,7 +19,9 @@ module Configru
     
     def [](key)
       key = key.to_s if key.is_a?(Symbol)
-      super(key)
+      # For some reason, super(key) returns {} instead of nil when the key
+      # doesn't exist :\
+      super(key) if self.include?(key)
     end
     
     def method_missing(key, *args)
