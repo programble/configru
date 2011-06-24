@@ -36,19 +36,19 @@ module Configru
       next unless criteria[key]
       @verify_stack.unshift(key)
       
-      if criteria[key].is_a?(Hash)
-        self.verify(hash[key], criteria[key])
-        @verify_stack.shift
-        next
-      elsif criteria[key].is_a?(Class)
-        result = hash[key].is_a?(criteria[key])
-      elsif criteria[key].is_a?(Array)
-        result = criteria[key].include?(hash[key])
+      result = case criteria[key]
+      when Hash
+        self.verify(value, criteria[key])
+        true
+      when Class
+        value.is_a?(criteria[key])
+      when Array
+        criteria[key].include?(value)
       else
-        result = criteria[key] === hash[key]
+        criteria[key] === value
       end
       
-      raise ConfigurationError, "#{@verify_stack.reverse.join('.')}" unless result
+      raise ConfigurationError, "Configuration option #{@verify_stack.reverse.join('.')} is invalid" unless result
       
       @verify_stack.shift
     end
