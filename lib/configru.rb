@@ -21,7 +21,7 @@ module Configru
     @config = ConfigHash.new(@defaults)
     
     case @load_method
-    when :derp
+    when :first
       if file = @files.find {|file| File.file?(file)} # Intended
         @config.merge!(YAML.load_file(file) || {})
       end

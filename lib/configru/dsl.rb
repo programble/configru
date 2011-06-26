@@ -7,7 +7,7 @@ module Configru
         @defaults_hash = {}
         @verify_hash = {}
         @files_array = []
-        @load_method = :derp
+        @load_method = :first
         instance_eval(&block)
       end
       
