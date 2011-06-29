@@ -52,7 +52,7 @@ module Configru
         criteria[key] === value
       end
       
-      raise ConfigurationError, "Configuration option '#{@verify_stack.reverse.join('.')}' is invalid" unless result
+      raise ConfigurationError, "configuration option '#{@verify_stack.reverse.join('.')}' is invalid" unless result
       
       @verify_stack.shift
     end
@@ -63,6 +63,8 @@ module Configru
   end
   
   def self.method_missing(key, *args)
+    # Simulate NoMethodError if it looks like they really wanted a method
+    raise NoMethodError, "undefined method `#{key.to_s}' for #{self.inspect}:#{self.class}" unless args.empty?
     self[key]
   end
 end
