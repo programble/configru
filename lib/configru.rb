@@ -8,12 +8,19 @@ require 'yaml'
 module Configru
   class ConfigurationError < RuntimeError; end
 
-  def self.load(&block)
-    dsl = DSL::LoadDSL.new(block)
-    @files = dsl.files_array.map {|x| File.expand_path(x)}
-    @load_method = dsl.load_method
-    @defaults = dsl.defaults_hash
-    @verify = dsl.verify_hash
+  def self.load(load_method=:first, files=[], defaults={}, verify={}, &block)
+    if block
+      dsl = DSL::LoadDSL.new(block)
+      @load_method = dsl.load_method
+      @files = dsl.files_array.map {|x| File.expand_path(x)}
+      @defaults = dsl.defaults_hash
+      @verify = dsl.verify_hash
+    else
+      @load_method = load_method
+      @files = files
+      @defaults = defaults
+      @verify = verify
+    end
     self.reload
   end
   
