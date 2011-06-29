@@ -11,7 +11,13 @@ module Configru
         instance_eval(&block)
       end
       
-      def search(*args)
+      def first_of(*args)
+        @load_method = :first
+        @files_array = args
+      end
+      
+      def cascade(*args)
+        @load_method = :cascade
         @files_array = args
       end
       
