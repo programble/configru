@@ -23,20 +23,12 @@ module Configru
         end
       end
       
-      def defaults=(hash)
-        @defaults_hash = hash
-      end
-      
       def verify(hash=nil, &block)
         if hash
           @verify_hash = hash
         elsif block
           @verify_hash = HashDSL.new(block).hash
         end
-      end
-      
-      def verify=(hash)
-        @verify_hash = hash
       end
     end
     
