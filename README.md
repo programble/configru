@@ -16,7 +16,7 @@ awesome: omgyes
 require 'configru'
 
 Configru.load do
-  search '~/foo.yml', '/etc/foo.yml' # Set files to look in
+  cascade '~/foo.yml', '/etc/foo.yml' # Set files to look in
   defaults do
     server 'irc.freenode.net'
     port 6667
