@@ -30,7 +30,10 @@ context 'ConfigHash - ' do
   end
   
   context 'recursively merging a nested Hash' do
-    hookup { topic.merge!({'baz' => {'apple' => 6}}) }
+    hookup do
+      topic.merge!({'baz' => {'quux'  => 5}})
+      topic.merge!({'baz' => {'apple' => 6}})
+    end
     
     asserts(:baz).kind_of(Configru::ConfigHash)
     asserts('baz.apple') { topic.baz.apple }.equals(6)
