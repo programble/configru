@@ -19,6 +19,8 @@ module Configru
     
     def [](key)
       key = key.to_s if key.is_a?(Symbol)
+      # Allow for accessing keys with hypens using underscores
+      key = key.gsub('_', '-')
       # For some reason, super(key) returns {} instead of nil when the key
       # doesn't exist :\
       super(key) if self.include?(key)
