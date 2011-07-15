@@ -6,39 +6,54 @@ Versatile configuration file loader for Ruby
 
     gem install configru
 
-## Desired Example Usage
+## Usage
 
-```yaml
-server: irc.ninthbit.net
-port: 6667
-nick: awesomeface
-powerlevel: 9
-awesome: omgyes
-```
+Configru loads YAML configuration files and provides a simple way to access
+configuration options.
+
+### Loading Configuration Files
+
+Configru provides a DSL for loading configuration files.
 
 ```ruby
 require 'configru'
 
 Configru.load do
-  cascade '~/foo.yml', '/etc/foo.yml' # Set files to look in
-  defaults do
-    server 'irc.freenode.net'
-    port 6667
-    nick 'bot'
-    powerlevel 1
-    awesome 'not at all'
-  end
-  verify do
-    server /\S+/ # Must match regex
-    nick /\S+/
-    port Fixnum # Must be an instance of
-    powerlevel 1..10 # Must be in range
-    awesome ['not at all', 'omgyes', 'meh'] # Must be one of
-  end
+  # Things
 end
-
-puts "Connecting to #{Configru.server}:#{Configru.port}"
 ```
+
+At the very least, the block passed to `Configru.load` must tell Configru
+which files it should load. There are two different methods of loading
+configuration files available.
+
+#### First-of Loading
+
+This method of loading looks for each file given and loads the first one
+that exists.
+
+```ruby
+Configru.load do
+  first_of 'foo.yml', '~/foo.yml', '/etc/foo.yml'
+end
+```
+
+#### Cascading Loading
+
+This method of loading loads each file given (if it exists) and cascades
+their values. The values in the first given file have highest priority,
+and the values in the last file have lowest priority.
+
+```ruby
+Configru.load do
+  cascade '~/foo.yml', '/etc/foo.yml'
+end
+```
+
+This will load `/etc/foo.yml` first, then `~/foo.yml`. The values in
+`~/foo.yml` will overwrite the values in `/etc/foo.yml`. If a configuration
+option is omitted in `~/foo.yml`, it will default to the value in
+`/etc/foo.yml`.
 
 ## License
 
