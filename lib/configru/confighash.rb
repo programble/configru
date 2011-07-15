@@ -7,7 +7,7 @@ module Configru
     
     def merge!(hash)
       hash.each do |key, value|
-        if self.include?(key) && value.is_a?(Hash)
+        if value.is_a?(Hash) && self[key].is_a?(ConfigHash)
           self[key].merge!(value)
         elsif value.is_a?(Hash)
           self[key] = ConfigHash.new(value)
