@@ -55,6 +55,36 @@ This will load `/etc/foo.yml` first, then `~/foo.yml`. The values in
 option is omitted in `~/foo.yml`, it will default to the value in
 `/etc/foo.yml`.
 
+### Accessing Options
+
+Configru aims to make accessing configuration values as simple as possible.
+All configuration options can be accessed as methods on the module
+`Configru`.
+
+##### foo.yml
+```yaml
+name: bob
+server:
+  address: foo.net
+  port: 6782
+```
+
+##### foo.rb
+```ruby
+require 'configru'
+require 'socket'
+
+Configru.load do
+  first_of 'foo.yml', '~/foo.yml'
+end
+
+s = TCPSocket.new(Configru.server.address, Configru.server.port)
+s.puts "Hello, I am #{Configru.name}"
+```
+
+Configuration options can also be accessed the old-fashioned way like a
+Hash. `Configru['server']['port']` is equivalent to `Configru.server.port`.
+
 ## License
 
 Copyright (c) 2011, Curtis McEnroe <programble@gmail.com>
