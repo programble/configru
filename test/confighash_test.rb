@@ -50,4 +50,14 @@ context 'ConfigHash - ' do
     asserts('baz.apple') { topic.baz.apple }.equals(6)
     asserts('baz.quux') { topic.baz.quux }.equals(5)
   end
+
+  context 'keys with hyphens' do
+    hookup do
+      topic.merge!({'foo-bar-baz' => 1})
+    end
+
+    asserts('foo_bar_baz') { topic.foo_bar_baz }.equals(1)
+    asserts('[:foo_bar_baz]') { topic[:foo_bar_baz] }.equals(1)
+    asserts("['foo_bar_baz']") { topic['foo_bar_baz'] }.equals(1)
+  end
 end
