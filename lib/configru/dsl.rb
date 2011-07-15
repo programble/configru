@@ -47,7 +47,7 @@ module Configru
       end
       
       def method_missing(method, *args, &block)
-        key = method.to_s
+        key = method.to_s.gsub('_', '-')
         if block
           @hash[key] = HashDSL.new(block).hash
         else
