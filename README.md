@@ -85,6 +85,10 @@ s.puts "Hello, I am #{Configru.name}"
 Configuration options can also be accessed the old-fashioned way like a
 Hash. `Configru['server']['port']` is equivalent to `Configru.server.port`.
 
+Configuration optiosn with hyphens (ie. `foo-bar`) can be accessed either
+using the old-fashioned way (ie. `Configru['foo-bar']`), or by replacing
+the hyphens with underscores for the method way (ie. `Configru.foo_bar`).
+
 ## License
 
 Copyright (c) 2011, Curtis McEnroe <programble@gmail.com>
