@@ -2,6 +2,10 @@
 
 Versatile configuration file loader for Ruby
 
+## Installation
+
+    gem install configru
+
 ## Desired Example Usage
 
 ```yaml
