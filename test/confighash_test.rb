@@ -9,7 +9,9 @@ context 'ConfigHash - ' do
   end
   
   context 'non-empty' do
-    hookup { topic.merge!({'foo' => 1, 'bar' => 2, 'baz' => 3}) }
+    hookup do
+      topic.merge!({'foo' => 1, 'bar' => 2, 'baz' => 3})
+    end
     
     # Testing access methods
     asserts("['foo']") { topic['foo'] }.equals(1)
@@ -18,12 +20,19 @@ context 'ConfigHash - ' do
   end
   
   context 'overwriting a value by merge' do
-    hookup { topic.merge!({'bar' => 4}) }
+    hookup do
+      topic.merge!({'foo' => 1, 'bar' => 2, 'baz' => 3})
+      topic.merge!({'bar' => 4})
+    end
     asserts(:bar).equals(4)
   end
   
   context 'merging a nested Hash' do
-    hookup { topic.merge!({'baz' => {'quux' => 5}}) }
+    hookup do
+      topic.merge!({'foo' => 1, 'bar' => 2, 'baz' => 3})
+      topic.merge!({'bar' => 4})
+      topic.merge!({'baz' => {'quux' => 5}})
+    end
     
     asserts(:baz).kind_of(Configru::ConfigHash)
     asserts('baz.quux') { topic.baz.quux }.equals(5)
@@ -31,6 +40,8 @@ context 'ConfigHash - ' do
   
   context 'recursively merging a nested Hash' do
     hookup do
+      topic.merge!({'foo' => 1, 'bar' => 2, 'baz' => 3})
+      topic.merge!({'bar' => 4})
       topic.merge!({'baz' => {'quux'  => 5}})
       topic.merge!({'baz' => {'apple' => 6}})
     end
