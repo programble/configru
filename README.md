@@ -89,6 +89,37 @@ Configuration optiosn with hyphens (ie. `foo-bar`) can be accessed either
 using the old-fashioned way (ie. `Configru['foo-bar']`), or by replacing
 the hyphens with underscores for the method way (ie. `Configru.foo_bar`).
 
+### Defaults
+
+Configru's load DSL allows for setting configuration defaults.
+
+```ruby
+require 'configru'
+
+Configru.load do
+  first_of 'foo.yml', '~/foo.yml'
+  defaults do
+    name 'Dr. Nader'
+    server do
+      address 'abcd.com'
+      port 1111
+    end
+  end
+end
+```
+
+The above `defaults` block is equivalent to the following YAML:
+
+```yaml
+name: Dr. Nader
+server:
+  address: abcd.com
+  port: 1111
+```
+
+If no configuration files are found or if the configuration file omits an
+option, the values in `defaults` will be used.
+
 ## License
 
 Copyright (c) 2011, Curtis McEnroe <programble@gmail.com>
