@@ -63,7 +63,7 @@ All configuration options can be accessed as methods on the module
 
 ##### foo.yml
 ```yaml
-name: bob
+nick: bob
 server:
   address: foo.net
   port: 6782
@@ -79,7 +79,7 @@ Configru.load do
 end
 
 s = TCPSocket.new(Configru.server.address, Configru.server.port)
-s.puts "Hello, I am #{Configru.name}"
+s.puts "Hello, I am #{Configru.nick}"
 ```
 
 Configuration options can also be accessed the old-fashioned way like a
@@ -99,7 +99,7 @@ require 'configru'
 Configru.load do
   first_of 'foo.yml', '~/foo.yml'
   defaults do
-    name 'Dr. Nader'
+    nick 'Dr. Nader'
     server do
       address 'abcd.com'
       port 1111
@@ -111,7 +111,7 @@ end
 The above `defaults` block is equivalent to the following YAML:
 
 ```yaml
-name: Dr. Nader
+nick: Dr. Nader
 server:
   address: abcd.com
   port: 1111
