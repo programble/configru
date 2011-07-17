@@ -39,8 +39,7 @@ end
 
 #### First-of Loading
 
-This method of loading looks for each file given and loads the first one
-that exists.
+This method loads the first file that exists, ignoring all other files.
 
 ```ruby
 Configru.load do
