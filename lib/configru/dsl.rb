@@ -10,11 +10,13 @@ module Configru
         @load_method = :first
         instance_eval(&block)
       end
-      
+
       def first_of(*args)
         @load_method = :first
         @files_array = args
       end
+
+      alias :just :first_of
       
       def cascade(*args)
         @load_method = :cascade
