@@ -27,6 +27,16 @@ At the very least, the block passed to `Configru.load` must tell Configru
 which files it should load. There are two different methods of loading
 configuration files available.
 
+#### Just load a file already!
+
+This is the simplest method of loading. It just loads a file, already!
+
+```ruby
+Configru.load do
+  just 'foo.yml'
+end
+```
+
 #### First-of Loading
 
 This method of loading looks for each file given and loads the first one
