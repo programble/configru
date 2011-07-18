@@ -23,13 +23,13 @@ Configru.load do
 end
 ```
 
-At the very least, the block passed to `Configru.load` must tell Configru
-which files it should load. There are two different methods of loading
-configuration files available.
+At the very least, the block passed to `Configru.load` must tell Configru which
+files it should load. There are two different methods of loading configuration
+files available.
 
 #### Just load a file already!
 
-This is the simplest method of loading. It just loads a file, already!
+This is the simplest method of loading. It just loads a file.
 
 ```ruby
 Configru.load do
@@ -61,9 +61,8 @@ end
 
 ### Accessing Options
 
-Configru aims to make accessing configuration values as simple as possible.
-All configuration options can be accessed as methods on the module
-`Configru`.
+Configuration options can be accessed as methods of the `Configru` module, or
+`Configru` can be used as a Hash.
 
 ##### foo.yml
 ```yaml
@@ -79,19 +78,15 @@ require 'configru'
 require 'socket'
 
 Configru.load do
-  first_of 'foo.yml', '~/foo.yml'
+  just 'foo.yml'
 end
 
-s = TCPSocket.new(Configru.server.address, Configru.server.port)
+s = TCPSocket.new(Configru.server.address, Configru['server']['port'])
 s.puts "Hello, I am #{Configru.nick}"
 ```
 
-Configuration options can also be accessed the old-fashioned way like a
-Hash. `Configru['server']['port']` is equivalent to `Configru.server.port`.
-
-Configuration optiosn with hyphens (ie. `foo-bar`) can be accessed either
-using the old-fashioned way (ie. `Configru['foo-bar']`), or by replacing
-the hyphens with underscores for the method way (ie. `Configru.foo_bar`).
+Configuration options with hyphens can be accessed as methods by replacing the
+hyphens with underscores.
 
 ### Defaults
 
