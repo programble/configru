@@ -50,7 +50,8 @@ end
 #### Cascading Loading
 
 This method loads every file that exists in reverse order. Files listed first
-overwrite the values from files listed later.
+overwrite the values from files listed later. (Files are listed in high to low
+cascade priority)
 
 ```ruby
 Configru.load do
