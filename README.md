@@ -49,20 +49,14 @@ end
 
 #### Cascading Loading
 
-This method of loading loads each file given (if it exists) and cascades
-their values. The values in the first given file have highest priority,
-and the values in the last file have lowest priority.
+This method loads every file that exists in reverse order. Files listed first
+overwrite the values from files listed later.
 
 ```ruby
 Configru.load do
   cascade '~/foo.yml', '/etc/foo.yml'
 end
 ```
-
-This will load `/etc/foo.yml` first, then `~/foo.yml`. The values in
-`~/foo.yml` will overwrite the values in `/etc/foo.yml`. If a configuration
-option is omitted in `~/foo.yml`, it will default to the value in
-`/etc/foo.yml`.
 
 ### Accessing Options
 
