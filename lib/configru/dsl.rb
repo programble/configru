@@ -23,9 +23,11 @@ module Configru
         @files_array = args
       end
       
-      def defaults(hash=nil, &block)
-        if hash
-          @defaults_hash = hash
+      def defaults(arg=nil, &block)
+        if arg.is_a? String
+          @defaults_hash = YAML.load_file(arg)
+        elsif arg
+          @defaults_hash = arg
         elsif block
           @defaults_hash = HashDSL.new(block).hash
         end
