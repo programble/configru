@@ -90,13 +90,16 @@ hyphens with underscores.
 
 ### Defaults
 
-Configru's load DSL allows for setting configuration defaults.
+Configru's load DSL allows for setting configuration defaults using a block.
+If no configuration files are found or if the configuration file omits an
+option, the values in `defaults` will be used.
+
 
 ```ruby
 require 'configru'
 
 Configru.load do
-  first_of 'foo.yml', '~/foo.yml'
+  just 'foo.yml'
   defaults do
     nick 'Dr. Nader'
     server do
@@ -116,8 +119,25 @@ server:
   port: 1111
 ```
 
-If no configuration files are found or if the configuration file omits an
-option, the values in `defaults` will be used.
+Defaults can also be set using a Hash instead of a block.
+
+```ruby
+Configru.load do
+  just 'foo.yml'
+  defaults 'nick' => 'Dr. Nader',
+           'server' => {'address' => 'abcd.com', 'port' => 1111}
+end
+```
+
+Defaults can also be loaded from a YAML file by passing the filename to
+`default`.
+
+```ruby
+Configru.load do
+  just 'foo.yml'
+  defaults 'foo.yml.dist'
+end
+```
 
 ## License
 
