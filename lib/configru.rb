@@ -26,15 +26,20 @@ module Configru
   
   def self.reload
     @config = ConfigHash.new(@defaults)
+    @loaded_files = []
     
     case @load_method
     when :first
       if file = @files.find {|file| File.file?(file)} # Intended
         @config.merge!(YAML.load_file(file) || {})
+        @loaded_files << file
       end
     when :cascade
       @files.reverse_each do |file|
-        @config.merge!(YAML.load_file(file) || {}) if File.file?(file)
+        if File.file?(file)
+          @config.merge!(YAML.load_file(file) || {})
+          @loaded_files << file
+        end
       end
     end
     
@@ -63,6 +68,10 @@ module Configru
       
       @verify_stack.shift
     end
+  end
+
+  def self.loaded_files
+    @loaded_files
   end
   
   def self.[](key)
