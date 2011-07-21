@@ -139,6 +139,11 @@ Configru.load do
 end
 ```
 
+### Verifying options
+
+Configru provides a way to verify that configuration options meet certain
+requirements. This is done using a `verify` block in `Configru.load`.
+
 ## License
 
 Copyright (c) 2011, Curtis McEnroe <programble@gmail.com>
