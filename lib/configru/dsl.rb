@@ -40,6 +40,12 @@ module Configru
           @verify_hash = HashDSL.new(block).hash
         end
       end
+
+      def options(&block)
+        hashes = DoubleHashDSL.new(block)
+        @defaults_hash = hashes.hash2
+        @verify_hash = hashes.hash1
+      end
     end
     
     class HashDSL
