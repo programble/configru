@@ -59,5 +59,29 @@ module Configru
         end
       end
     end
+
+    class DoubleHashDSL
+      attr_reader :hash1, :hash2
+
+      def initialize(block)
+        @hash1 = {}
+        @hash2 = {}
+        instance_eval(&block)
+      end
+
+      def method_missing(method, *args, &block)
+        key = method.to_s.gsub('_', '-')
+        if block
+          child = DoubleHashDSL.new(block)
+          @hash1[key] = child.hash1
+          @hash2[key] = child.hash2
+        else
+          # Simulate method requiring 2 arguments
+          raise ArgumentError, "wrong number of arguments(#{args.length} for 2)" unless args.length == 2
+          @hash1[key] = args[0]
+          @hash2[key] = args[1]
+        end
+      end
+    end
   end
 end
