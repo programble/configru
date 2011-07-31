@@ -61,6 +61,8 @@ module Configru
         if block
           @hash[key] = HashDSL.new(block).hash
         else
+          # Simulate method requiring 1 argument
+          raise ArgumentError, "wrong number of arguments(#{args.length} for 1)" unless args.length == 1
           @hash[key] = args[0]
         end
       end
