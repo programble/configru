@@ -144,6 +144,26 @@ end
 Configru provides a way to verify that configuration options meet certain
 requirements. This is done using a `verify` block in `Configru.load`.
 
+```ruby
+Configru.load do
+  just 'foo.yml'
+  verify do
+    foo Fixnum
+    bar /^a+$/
+    baz ['one', 'two']
+  end
+end
+```
+
+Upon loading the configuration, Configru checks each option against this verify
+block. In most cases, the `===` operator is used to compare the values, but
+there are some special cases. If the verification value is a class, `is_a?` is
+used. If the verification value is an array, `include?` is used. This
+effectively means that with a class, the value must be an instance of that
+class, and with an array, the value must be one of the values in the array.
+
+FIXME: Talk about how Configru deals with invalid options
+
 ## License
 
 Copyright (c) 2011, Curtis McEnroe <programble@gmail.com>
