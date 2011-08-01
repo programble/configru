@@ -164,6 +164,27 @@ class, and with an array, the value must be one of the values in the array.
 
 FIXME: Talk about how Configru deals with invalid options
 
+### Doing two things at once
+
+Configru also has an `options` block in `Configru.load` which allows for
+combining the `defaults` and `verify` blocks.
+
+```ruby
+Configru.load do
+  just 'foo.yml'
+  options do
+    nick String, 'Dr. Nader'
+    server do
+      address String, 'abcd.com'
+      port (0..65535), 1111
+    end
+  end
+end
+```
+
+In the `options` block, each option takes two arguments, the first being the
+verification value, and the second being the default value.
+
 ## License
 
 Copyright (c) 2011, Curtis McEnroe <programble@gmail.com>
