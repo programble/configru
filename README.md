@@ -64,7 +64,7 @@ end
 Configuration options can be accessed as methods of the `Configru` module, or
 `Configru` can be used as a Hash.
 
-##### foo.yml
+**foo.yml**
 ```yaml
 nick: bob
 server:
@@ -72,7 +72,7 @@ server:
   port: 6782
 ```
 
-##### foo.rb
+**foo.rb**
 ```ruby
 require 'configru'
 require 'socket'
