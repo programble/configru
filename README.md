@@ -2,16 +2,16 @@
 
 Versatile configuration file loader for Ruby
 
-## Installation
+# Installation
 
     gem install configru
 
-## Usage
+# Usage
 
 Configru loads YAML configuration files and provides a simple way to access
 configuration options.
 
-### Loading Configuration Files
+## Loading Configuration Files
 
 Configru provides a DSL for loading configuration files.
 
@@ -27,7 +27,7 @@ At the very least, the block passed to `Configru.load` must tell Configru which
 files it should load. There are two different methods of loading configuration
 files available.
 
-#### Just load a file already!
+### Just load a file already!
 
 This is the simplest method of loading. It just loads a file.
 
@@ -37,7 +37,7 @@ Configru.load do
 end
 ```
 
-#### First-of Loading
+### First-of Loading
 
 This method loads the first file that exists, ignoring all other files.
 
@@ -47,7 +47,7 @@ Configru.load do
 end
 ```
 
-#### Cascading Loading
+### Cascading Loading
 
 This method loads every file that exists in reverse order. Files listed first
 overwrite the values from files listed later. (Files are listed in high to low
@@ -59,7 +59,7 @@ Configru.load do
 end
 ```
 
-### Accessing Options
+## Accessing Options
 
 Configuration options can be accessed as methods of the `Configru` module, or
 `Configru` can be used as a Hash.
@@ -90,7 +90,7 @@ s.puts "Hello, I am #{Configru.nick}"
 Configuration options with hyphens can be accessed as methods by replacing the
 hyphens with underscores.
 
-### Defaults
+## Defaults
 
 Configru's load DSL allows for setting configuration defaults using a block.
 If no configuration files are found or if the configuration file omits an
@@ -141,7 +141,7 @@ Configru.load do
 end
 ```
 
-### Verifying options
+## Verifying options
 
 Configru provides a way to verify that configuration options meet certain
 requirements. This is done using a `verify` block in `Configru.load`.
@@ -166,7 +166,7 @@ class, and with an array, the value must be one of the values in the array.
 
 FIXME: Talk about how Configru deals with invalid options
 
-### Doing two things at once
+## Doing two things at once
 
 Configru also has an `options` block in `Configru.load` which allows for
 combining the `defaults` and `verify` blocks.
@@ -187,7 +187,7 @@ end
 In the `options` block, each option takes two arguments, the first being the
 verification value, and the second being the default value.
 
-## License
+# License
 
 Copyright (c) 2011, Curtis McEnroe <programble@gmail.com>
 
