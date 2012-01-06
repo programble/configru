@@ -132,7 +132,7 @@ end
 ```
 
 Defaults can also be loaded from a YAML file by passing the filename to
-`default`.
+`defaults`.
 
 ```ruby
 Configru.load do
