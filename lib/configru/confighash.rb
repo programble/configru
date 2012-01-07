@@ -4,7 +4,7 @@ module Configru
       super
       merge!(hash)
     end
-    
+
     def merge!(hash)
       hash.each do |key, value|
         if value.is_a?(Hash) && self[key].is_a?(ConfigHash)
@@ -16,7 +16,7 @@ module Configru
         end
       end
     end
-    
+
     def [](key)
       key = key.to_s if key.is_a?(Symbol)
       # Allow for accessing keys with hypens using underscores
@@ -25,7 +25,7 @@ module Configru
       # doesn't exist :\
       super(key) if self.include?(key)
     end
-    
+
     def method_missing(key, *args)
       self[key]
     end

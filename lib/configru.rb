@@ -23,11 +23,11 @@ module Configru
     end
     self.reload
   end
-  
+
   def self.reload
     @config = ConfigHash.new(@defaults)
     @loaded_files = []
-    
+
     case @load_method
     when :first
       if file = @files.find {|file| File.file?(file)} # Intended
@@ -42,10 +42,10 @@ module Configru
         end
       end
     end
-    
+
     self.verify(@config, @verify)
   end
-  
+
   @verify_stack = []
   def self.verify(hash, criteria)
     hash.each do |key, value|
@@ -61,9 +61,9 @@ module Configru
       else
         criteria[key] === value
       end
-      
+
       raise ConfigurationError, "configuration option '#{@verify_stack.reverse.join('.')}' is invalid" unless result
-      
+
       @verify_stack.shift
     end
   end
@@ -71,11 +71,11 @@ module Configru
   def self.loaded_files
     @loaded_files
   end
-  
+
   def self.[](key)
     @config[key]
   end
-  
+
   def self.method_missing(key, *args)
     # Simulate NoMethodError if it looks like they really wanted a method
     raise NoMethodError, "undefined method `#{key.to_s}' for #{self.inspect}:#{self.class}" unless args.empty?

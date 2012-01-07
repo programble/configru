@@ -2,7 +2,7 @@ module Configru
   module DSL
     class LoadDSL
       attr_reader :defaults_hash, :verify_hash, :files_array, :load_method
-      
+
       def initialize(block)
         @defaults_hash = {}
         @verify_hash = {}
@@ -17,12 +17,12 @@ module Configru
       end
 
       alias :just :first_of
-      
+
       def cascade(*args)
         @load_method = :cascade
         @files_array = args
       end
-      
+
       def defaults(arg=nil, &block)
         if arg.is_a? String
           @defaults_hash = YAML.load_file(arg)
@@ -32,7 +32,7 @@ module Configru
           @defaults_hash = HashDSL.new(block).hash
         end
       end
-      
+
       def verify(hash=nil, &block)
         if hash
           @verify_hash = hash
@@ -47,15 +47,15 @@ module Configru
         @verify_hash = hashes.hash1
       end
     end
-    
+
     class HashDSL
       attr_reader :hash
-      
+
       def initialize(block)
         @hash = {}
         instance_eval(&block)
       end
-      
+
       def method_missing(method, *args, &block)
         key = method.to_s.gsub('_', '-')
         if block
