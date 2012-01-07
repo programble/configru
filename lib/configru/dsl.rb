@@ -11,16 +11,28 @@ module Configru
         instance_eval(&block)
       end
 
+      def files(*args)
+        if args[0].is_a?(String) && args[1].is_a?(Array)
+          @files_array = args[1].map {|x| File.join(x, args[0])}
+        else
+          @files_array = args
+        end
+      end
+
+      def method(m)
+        @load_method = m
+      end
+
       def first_of(*args)
-        @load_method = :first
-        @files_array = args
+        method(:first)
+        files(*args)
       end
 
       alias :just :first_of
 
       def cascade(*args)
-        @load_method = :cascade
-        @files_array = args
+        method(:cascade)
+        files(*args)
       end
 
       def defaults(arg=nil, &block)
