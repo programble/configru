@@ -51,13 +51,11 @@ module Configru
     hash.each do |key, value|
       next unless criteria[key]
       @verify_stack.unshift(key)
-      
+
       result = case criteria[key]
       when Hash
         self.verify(value, criteria[key])
-        true
-      when Class
-        value.is_a?(criteria[key])
+        true # If it failed, an exception will have been raised
       when Array
         criteria[key].include?(value)
       else
