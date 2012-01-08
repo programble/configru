@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.0 (8 January 2012)
+
+ * Added `cascade 'c', ['a', 'b']` form
+
 ## 0.3.0 (30 July 2011)
 
  * Added `Configru.loaded_files`
