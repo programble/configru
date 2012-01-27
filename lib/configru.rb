@@ -72,6 +72,10 @@ module Configru
     @loaded_files
   end
 
+  def self.raw
+    @config
+  end
+
   def self.[](key)
     @config[key]
   end
