@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.5.0 (27 February 2012)
+
+ * Added `Configru.raw` method to access raw hashmap
+
 ## 0.4.1 (27 February 2012)
 
  * Fix: Only replace underscores with hyphens in keys if the key does not exist
