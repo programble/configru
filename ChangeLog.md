@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.1 (27 February 2012)
+
+ * Fix: Only replace underscores with hyphens in keys if the key does not exist
+
 ## 0.4.0 (8 January 2012)
 
  * Added `cascade 'c', ['a', 'b']` form
