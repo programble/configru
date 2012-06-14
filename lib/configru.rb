@@ -47,13 +47,11 @@ module Configru
         next
       end
 
-      # option has no value
-      unless input.include? key
-        output[key] = option.default
-        next
+      if input.include? key
+        value = input[key]
+      else
+        value = option.default
       end
-
-      value = input[key]
 
       # TODO: Better exceptions
       raise ConfigurationError unless value.is_a? option.type
