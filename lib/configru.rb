@@ -55,8 +55,10 @@ module Configru
 
       # TODO: Better exceptions
       raise ConfigurationError unless value.is_a? option.type
-      if option.validate
+      if option.validate.is_a? Proc
         raise ConfigurationError unless option.validate[value]
+      elsif option.validate
+        raise ConfigurationError unless option.validate === value
       end
 
       output[key] = option.transform ? option.transform[value] : value
