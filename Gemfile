@@ -1,9 +1,8 @@
-source "http://rubygems.org"
+source :rubygems
 
 group :development do
-  gem "riot", ">= 0"
-  gem "bundler", "~> 1.0.0"
+  gem 'rspec', '~> 2.8.0'
+  gem 'simplecov', '~> 0.6.0'
 end
 
-# Specify your gem's dependencies in configru.gemspec
 gemspec
