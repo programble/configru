@@ -5,24 +5,24 @@ module Configru
     class OptionGroup
       attr_reader :options
 
-      def initialize(block)
+      def initialize(&block)
         @options = {}
         instance_eval(&block)
       end
 
       def option(name, type = Object, default = nil, validate = nil, &block)
         option = Configru::Option.new(type, default, validate, nil)
-        Option.new(option, block) if block
+        Option.new(option, &block) if block
         @options[name.to_s] = option
       end
 
       def option_group(name, &block)
-        @options[name.to_s] = OptionGroup.new(block).options
+        @options[name.to_s] = OptionGroup.new(&block).options
       end
     end
 
     class Option
-      def initialize(option, block)
+      def initialize(option, &block)
         @option = option
         instance_eval(&block)
       end

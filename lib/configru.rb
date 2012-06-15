@@ -9,7 +9,7 @@ module Configru
 
   def self.load(*files, &block)
     @files = files
-    @options = DSL::OptionGroup.new(block).options
+    @options = DSL::OptionGroup.new(&block).options
     @root = StructHash.new
     self.reload
   end
