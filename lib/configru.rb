@@ -33,10 +33,6 @@ module Configru
     self.load_group(@options, @root, YAML.load_file(file) || {})
   end
 
-  def self.load_yaml(yaml)
-    self.load_group(@options, @root, YAML.load(yaml) || {})
-  end
-
   def self.load_group(option_group, output, input)
     option_group.each do |key, option|
       # option is a group
