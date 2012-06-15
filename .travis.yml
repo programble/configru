@@ -7,3 +7,7 @@ rvm:
   - jruby-19mode
   - rbx-18mode
   - rbx-19mode
+
+notifications:
+  webhooks:
+    - http://rcmp.tenthbit.net/
