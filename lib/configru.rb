@@ -8,7 +8,7 @@ module Configru
   class ConfigurationError < Exception; end
 
   def self.load(*files, &block)
-    @files = files
+    @files = files.flatten
     @options = DSL::OptionGroup.new(&block).options
     @root = StructHash.new
     self.reload
