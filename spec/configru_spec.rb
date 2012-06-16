@@ -7,6 +7,14 @@ describe Configru do
     Configru.example.should == 'example'
   end
 
+  it 'behaves like a hash' do
+    Configru.load do
+      option :example, String, 'example'
+    end
+
+    Configru['example'].should == 'example'
+  end
+
   it 'loads defaults if no files exist' do
     Configru.load('spec/examples_files/example_z.yml') do
       option :example, String, 'example'

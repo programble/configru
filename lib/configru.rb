@@ -61,6 +61,10 @@ module Configru
     end
   end
 
+  def self.[](key)
+    @root[key]
+  end
+
   def self.method_missing(method)
     @root.send(method)
   end
