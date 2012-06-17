@@ -58,29 +58,29 @@ describe Configru do
   end
 
   it 'checks option types' do
-    lambda do
+    expect do
       Configru.load('spec/example_files/example_d.yml') do
         option :string, String, ''
       end
-    end.should raise_error(Configru::ConfigurationError)
+    end.to raise_error(Configru::ConfigurationError)
   end
 
   it 'validates options against values' do
-    lambda do
+    expect do
       Configru.load('spec/example_files/example_d.yml') do
         option :example, String, 'test', /test/
       end
-    end.should raise_error(Configru::ConfigurationError)
+    end.to raise_error(Configru::ConfigurationError)
   end
 
   it 'validates options against blocks' do
-    lambda do
+    expect do
       Configru.load('spec/example_files/example_d.yml') do
         option :example, String, '' do
           validate { false }
         end
       end
-    end.should raise_error(Configru::ConfigurationError)
+    end.to raise_error(Configru::ConfigurationError)
   end
 
   it 'applies transformations to options' do
