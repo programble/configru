@@ -23,6 +23,14 @@ describe Configru do
     Configru.example.should == 'example'
   end
 
+  it 'loads defaults if file is empty' do
+    Configru.load('spec/examples_files/example_e.yml') do
+      option :example, String, 'example'
+    end
+
+    Configru.example.should == 'example'
+  end
+
   it 'loads a file' do
     Configru.load('spec/example_files/example_a.yml') do
       option :example
