@@ -35,6 +35,14 @@ describe Configru do
     Configru.example.should == 'example'
   end
 
+  it 'loads defaults if file contains only whitespace' do
+    Configru.load(example_file :f) do
+      option :example, String, 'example'
+    end
+
+    Configru.example.should == 'example'
+  end
+
   it 'loads a file' do
     Configru.load(example_file :a) do
       option :example
