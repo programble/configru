@@ -5,7 +5,7 @@ require 'configru/structhash'
 require 'yaml'
 
 module Configru
-  class ConfigurationError < Exception; end
+  class ConfigurationError < RuntimeError; end
 
   def self.load(*files, &block)
     @files = files.flatten
