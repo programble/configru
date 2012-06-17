@@ -1,4 +1,8 @@
 describe Configru do
+  def example_file(x)
+    "spec/example_files/example_#{x}.yml"
+  end
+
   it 'loads defaults if no files are given' do
     Configru.load do
       option :example, String, 'example'
@@ -16,7 +20,7 @@ describe Configru do
   end
 
   it 'loads defaults if no files exist' do
-    Configru.load('spec/examples_files/example_z.yml') do
+    Configru.load(example_file :z) do
       option :example, String, 'example'
     end
 
@@ -24,7 +28,7 @@ describe Configru do
   end
 
   it 'loads defaults if file is empty' do
-    Configru.load('spec/examples_files/example_e.yml') do
+    Configru.load(example_file :e) do
       option :example, String, 'example'
     end
 
@@ -32,7 +36,7 @@ describe Configru do
   end
 
   it 'loads a file' do
-    Configru.load('spec/example_files/example_a.yml') do
+    Configru.load(example_file :a) do
       option :example
     end
 
@@ -40,7 +44,7 @@ describe Configru do
   end
 
   it 'loads files in order' do
-    Configru.load('spec/example_files/example_a.yml', 'spec/example_files/example_b.yml') do
+    Configru.load(example_file(:a), example_file(:b)) do
       option :example
     end
 
@@ -48,7 +52,7 @@ describe Configru do
   end
 
   it 'loads a file with a group' do
-    Configru.load('spec/example_files/example_c.yml') do
+    Configru.load(example_file :c) do
       option_group :example_group do
         option :example
       end
@@ -59,7 +63,7 @@ describe Configru do
 
   it 'checks option types' do
     expect do
-      Configru.load('spec/example_files/example_d.yml') do
+      Configru.load(example_file :d) do
         option :string, String, ''
       end
     end.to raise_error(Configru::ConfigurationError)
@@ -67,7 +71,7 @@ describe Configru do
 
   it 'validates options against values' do
     expect do
-      Configru.load('spec/example_files/example_d.yml') do
+      Configru.load(example_file :d) do
         option :example, String, 'test', /test/
       end
     end.to raise_error(Configru::ConfigurationError)
@@ -75,7 +79,7 @@ describe Configru do
 
   it 'validates options against blocks' do
     expect do
-      Configru.load('spec/example_files/example_d.yml') do
+      Configru.load(example_file :d) do
         option :example, String, '' do
           validate { false }
         end
@@ -84,7 +88,7 @@ describe Configru do
   end
 
   it 'applies transformations to options' do
-    Configru.load('spec/example_files/example_d.yml') do
+    Configru.load(example_file :d) do
       option :example, String, '' do
         transform {|x| x + 't' }
       end
