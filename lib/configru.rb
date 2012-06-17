@@ -17,7 +17,7 @@ module Configru
   def self.reload
     loaded_files = []
     @files.each do |file|
-      if File.file?(file)
+      if File.file?(file) && File.size(file) > 0
         self.load_file(file)
         loaded_files << file
       end
