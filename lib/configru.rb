@@ -5,7 +5,27 @@ require 'configru/structhash'
 require 'yaml'
 
 module Configru
-  class ConfigurationError < RuntimeError; end
+  class OptionError < RuntimeError
+    def initialize(path, message)
+      super("#{path.join('.')}: #{message}")
+    end
+  end
+
+  class OptionTypeError < OptionError
+    def initialize(path, expected, got)
+      super(path, "expected #{expected}, got #{got}")
+    end
+  end
+
+  class OptionValidationError < OptionError
+    def initialize(path, validation = nil)
+      if validation
+        super(path, "failed validation `#{validation.inspect}`")
+      else
+        super(path, "failed validation")
+      end
+    end
+  end
 
   def self.load(*files, &block)
     @files = files.flatten
@@ -26,20 +46,25 @@ module Configru
     # Load all defaults if no files were loaded
     # TODO: loaded_files as instance var?
     # TODO: Better way to load defaults?
+    @option_path = []
     self.load_group(@options, @root, {}) if loaded_files.empty?
   end
 
   def self.load_file(file)
+    @option_path = []
     self.load_group(@options, @root, YAML.load_file(file) || {})
   end
 
   def self.load_group(option_group, output, input)
     option_group.each do |key, option|
+      @option_path << key
+
       # option is a group
       if option.is_a? Hash
         group_output = output[key] || StructHash.new
         self.load_group(option, group_output, input[key] || {})
         output[key] = group_output
+        @option_path.pop
         next
       end
 
@@ -49,15 +74,23 @@ module Configru
         value = option.default
       end
 
-      # TODO: Better exceptions
-      raise ConfigurationError unless value.is_a? option.type
+      unless value.is_a? option.type
+        raise OptionTypeError.new(@option_path, option.type, value.class)
+      end
+
       if option.validate.is_a? Proc
-        raise ConfigurationError unless option.validate[value]
+        unless option.validate[value]
+          raise OptionValidationError.new(@option_path)
+        end
       elsif option.validate
-        raise ConfigurationError unless option.validate === value
+        unless option.validate === value
+          raise OptionValidationError.new(@option_path, option.validate)
+        end
       end
 
       output[key] = option.transform ? option.transform[value] : value
+
+      @option_path.pop
     end
   end
 

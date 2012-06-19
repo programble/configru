@@ -74,7 +74,7 @@ describe Configru do
       Configru.load(example_file :d) do
         option :string, String, ''
       end
-    end.to raise_error(Configru::ConfigurationError)
+    end.to raise_error(Configru::OptionTypeError)
   end
 
   it 'validates options against values' do
@@ -82,7 +82,7 @@ describe Configru do
       Configru.load(example_file :d) do
         option :example, String, 'test', /test/
       end
-    end.to raise_error(Configru::ConfigurationError)
+    end.to raise_error(Configru::OptionValidationError)
   end
 
   it 'validates options against blocks' do
@@ -92,7 +92,7 @@ describe Configru do
           validate { false }
         end
       end
-    end.to raise_error(Configru::ConfigurationError)
+    end.to raise_error(Configru::OptionValidationError)
   end
 
   it 'applies transformations to options' do
