@@ -61,6 +61,9 @@ module Configru
 
       # option is a group
       if option.is_a? Hash
+        if input.has_key?(key) && !input[key].is_a?(Hash)
+          raise OptionTypeError.new(@option_path, Hash, input[key].class)
+        end
         group_output = output[key] || StructHash.new
         self.load_group(option, group_output, input[key] || {})
         output[key] = group_output

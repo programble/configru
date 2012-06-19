@@ -69,6 +69,15 @@ describe Configru do
     Configru.example_group.example.should == 'example_c'
   end
 
+  it 'checks that group values are Hashes' do
+    expect do
+      Configru.load(example_file :a) do
+        option_group :example do
+        end
+      end
+    end.to raise_error(Configru::OptionTypeError)
+  end
+
   it 'checks option types' do
     expect do
       Configru.load(example_file :d) do
