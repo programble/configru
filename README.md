@@ -5,6 +5,7 @@ Configuration file loader
 ## Usage
 
 ```ruby
+# Gemfile
 gem 'configru', '~> 2.0.0'
 ```
 
