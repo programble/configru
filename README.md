@@ -1,6 +1,6 @@
 # Configru
 
-Configuration file loader
+YAML configuration file loader
 
 ## Usage
 
