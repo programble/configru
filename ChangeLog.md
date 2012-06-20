@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.0 (19 June 2012)
+
+ * Entirely new API
+
 ## 0.5.0 (27 February 2012)
 
  * Added `Configru.raw` method to access raw hashmap
