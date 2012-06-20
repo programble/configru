@@ -1,4 +1,4 @@
-# Configru [![Build Status](https://secure.travis-ci.org/programble/configru.png?branch=master)](http://travis-ci.org/programble/configru) [![Dependency Status](https://gemnasium.com/programble/configru.png?travis)][https://gemnasium.com/programble/configru]
+# Configru [![Build Status](https://secure.travis-ci.org/programble/configru.png?branch=master)](http://travis-ci.org/programble/configru) [![Dependency Status](https://gemnasium.com/programble/configru.png?travis)](https://gemnasium.com/programble/configru)
 
 YAML configuration file loader
 
