@@ -1,88 +1,110 @@
-$: << File.dirname(__FILE__) unless $:.include?(File.dirname(__FILE__))
-
-require 'configru/confighash'
 require 'configru/dsl'
+require 'configru/option'
+require 'configru/structhash'
 
 require 'yaml'
 
 module Configru
-  class ConfigurationError < RuntimeError; end
-
-  def self.load(load_method=:first, files=[], defaults={}, verify={}, &block)
-    if block
-      dsl = DSL::LoadDSL.new(block)
-      @load_method = dsl.load_method
-      @files = dsl.files_array.map {|x| File.expand_path(x)}
-      @defaults = dsl.defaults_hash
-      @verify = dsl.verify_hash
-    else
-      @load_method = load_method
-      @files = files
-      @defaults = defaults
-      @verify = verify
+  class OptionError < RuntimeError
+    def initialize(path, message)
+      super("#{path.join('.')}: #{message}")
     end
+  end
+
+  class OptionTypeError < OptionError
+    def initialize(path, expected, got)
+      super(path, "expected #{expected}, got #{got}")
+    end
+  end
+
+  class OptionValidationError < OptionError
+    def initialize(path, validation = nil)
+      if validation
+        super(path, "failed validation `#{validation.inspect}`")
+      else
+        super(path, "failed validation")
+      end
+    end
+  end
+
+  def self.load(*files, &block)
+    @files = files.flatten
+    @options = DSL::OptionGroup.new(&block).options
+    @root = StructHash.new
     self.reload
   end
 
   def self.reload
-    @config = ConfigHash.new(@defaults)
-    @loaded_files = []
-
-    case @load_method
-    when :first
-      if file = @files.find {|file| File.file?(file)} # Intended
-        @config.merge!(YAML.load_file(file) || {})
-        @loaded_files << file
+    loaded_files = []
+    @files.each do |file|
+      if File.file?(file) && !File.zero?(file)
+        self.load_file(file)
+        loaded_files << file
       end
-    when :cascade
-      @files.reverse_each do |file|
-        if File.file?(file)
-          @config.merge!(YAML.load_file(file) || {})
-          @loaded_files << file
+    end
+
+    # Load all defaults if no files were loaded
+    # TODO: loaded_files as instance var?
+    # TODO: Better way to load defaults?
+    @option_path = []
+    self.load_group(@options, @root, {}) if loaded_files.empty?
+  end
+
+  def self.load_file(file)
+    @option_path = []
+    self.load_group(@options, @root, YAML.load_file(file) || {})
+  end
+
+  def self.load_group(option_group, output, input)
+    option_group.each do |key, option|
+      @option_path << key
+
+      # option is a group
+      if option.is_a? Hash
+        if input.has_key?(key) && !input[key].is_a?(Hash)
+          raise OptionTypeError.new(@option_path, Hash, input[key].class)
+        end
+        group_output = output[key] || StructHash.new
+        self.load_group(option, group_output, input[key] || {})
+        output[key] = group_output
+        @option_path.pop
+        next
+      end
+
+      if input.include? key
+        value = input[key]
+      else
+        value = option.default
+      end
+
+      unless value.is_a? option.type
+        raise OptionTypeError.new(@option_path, option.type, value.class)
+      end
+
+      if option.validate.is_a? Proc
+        unless option.validate[value]
+          raise OptionValidationError.new(@option_path)
+        end
+      elsif option.validate
+        unless option.validate === value
+          raise OptionValidationError.new(@option_path, option.validate)
         end
       end
+
+      output[key] = option.transform ? option.transform[value] : value
+
+      @option_path.pop
     end
-
-    self.verify(@config, @verify)
-  end
-
-  @verify_stack = []
-  def self.verify(hash, criteria)
-    hash.each do |key, value|
-      next unless criteria[key]
-      @verify_stack.unshift(key)
-
-      result = case criteria[key]
-      when Hash
-        self.verify(value, criteria[key])
-        true # If it failed, an exception will have been raised
-      when Array
-        criteria[key].include?(value)
-      else
-        criteria[key] === value
-      end
-
-      raise ConfigurationError, "configuration option '#{@verify_stack.reverse.join('.')}' is invalid" unless result
-
-      @verify_stack.shift
-    end
-  end
-
-  def self.loaded_files
-    @loaded_files
-  end
-
-  def self.raw
-    @config
   end
 
   def self.[](key)
-    @config[key]
+    @root[key]
   end
 
-  def self.method_missing(key, *args)
-    # Simulate NoMethodError if it looks like they really wanted a method
-    raise NoMethodError, "undefined method `#{key.to_s}' for #{self.inspect}:#{self.class}" unless args.empty?
-    self[key]
+  def self.method_missing(method, *args)
+    # Let super raise the appropriate exception if it looks like the caller
+    # wants a real method
+    super(method, *args) unless args.empty?
+    @root.send(method)
   end
 end
