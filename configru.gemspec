@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Curtis McEnroe"]
   s.email       = ["programble@gmail.com"]
   s.homepage    = "https://github.com/programble/configru"
-  s.summary     = %q{Versatile configuration file loader}
+  s.summary     = %q{YAML configuration file loader}
   s.description = s.summary
 
   s.files         = `git ls-files`.split("\n")
