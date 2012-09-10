@@ -8,6 +8,23 @@ YAML configuration file loader
 # Gemfile
 gem "configru", "~> 2.0.0"
 ```
+### Example
+
+```ruby
+require 'configru'
+
+Configru.load('config.yml') do
+  option :username, String, 'example_user'
+  option :token, Fixnum, 1234
+  option_group :connection do
+    option :server, String, 'example.com'
+    option :port, Fixnum, 42
+  end
+end
+
+example = Example.new(Configru.connection.server, Configru.connection.port)
+example.login(Configru.username, Configru.token)
+```
 
 # License
 
