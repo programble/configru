@@ -31,6 +31,17 @@ example.login(Configru.username, Configru.token)
 example.sync(Configru.path)
 ```
 
+These defaults are equivalent to the following YAML:
+
+```yaml
+username: example_user
+token: 1234
+connection:
+  server: example.com
+  port: 42
+path: ~
+```
+
 # License
 
 Copyright (c) 2011-2012, Curtis McEnroe <programble@gmail.com>
