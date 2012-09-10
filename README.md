@@ -20,10 +20,15 @@ Configru.load('config.yml') do
     option :server, String, 'example.com'
     option :port, Fixnum, 42
   end
+  option :path, String, Dir.home do
+    transform {|x| File.expand_path(x) }
+    validate {|x| File.directory?(x) }
+  end
 end
 
 example = Example.new(Configru.connection.server, Configru.connection.port)
 example.login(Configru.username, Configru.token)
+example.sync(Configru.path)
 ```
 
 # License
