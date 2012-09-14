@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.1 (14 September 2012)
+
+ * Fix: Cascade options in loaded files
+
 ## 2.0.0 (19 June 2012)
 
  * Entirely new API
