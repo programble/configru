@@ -59,6 +59,16 @@ describe Configru do
     Configru.example.should == 'example_b'
   end
 
+  it 'cascades loaded files' do
+    Configru.load(example_file(:g), example_file(:h)) do
+      option :option1
+      option :option2
+    end
+
+    Configru.option1.should == 'example_g'
+    Configru.option2.should == 'example_h'
+  end
+
   it 'loads a file with a group' do
     Configru.load(example_file :c) do
       option_group :example_group do

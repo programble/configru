@@ -73,7 +73,10 @@ module Configru
 
       if input.include? key
         value = input[key]
-      else
+      elsif output.include? key # option has already been set
+        @option_path.pop
+        next
+      else # option has not been set
         value = option.default
       end
 
