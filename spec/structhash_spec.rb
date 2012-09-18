@@ -7,8 +7,13 @@ describe Configru::StructHash do
     @hash.should be_a_kind_of(Hash)
   end
 
-  it 'returns nil for missing method key' do
-    @hash.example.should be_nil
+  it 'raises NoMethodError for missing method key' do
+    expect { @hash.example }.to raise_error(NoMethodError)
+  end
+
+  it 'raises NoMethodError if method key exists but is called with arguments' do
+    @hash['example'] = :example
+    expect { @hash.example(:foo) }.to raise_error(NoMethodError)
   end
 
   it 'returns value for method key' do

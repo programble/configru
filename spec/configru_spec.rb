@@ -11,12 +11,14 @@ describe Configru do
     Configru.example.should == 'example'
   end
 
-  it 'behaves like a hash' do
+  it 'behaves like a StructHash' do
     Configru.load do
       option :example, String, 'example'
     end
 
     Configru['example'].should == 'example'
+    Configru.example.should == 'example'
+    expect { Configru.example2 }.to raise_error(NoMethodError)
   end
 
   it 'loads defaults if no files exist' do

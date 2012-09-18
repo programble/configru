@@ -105,9 +105,6 @@ module Configru
   end
 
   def self.method_missing(method, *args)
-    # Let super raise the appropriate exception if it looks like the caller
-    # wants a real method
-    super(method, *args) unless args.empty?
-    @root.send(method)
+    @root.send(method, *args)
   end
 end
