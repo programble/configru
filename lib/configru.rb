@@ -80,7 +80,7 @@ module Configru
         value = option.default
       end
 
-      unless value.is_a? option.type
+      unless option.type?(value)
         raise OptionTypeError.new(@option_path, option.type, value.class)
       end
 
