@@ -1,3 +1,13 @@
 module Configru
-  Option = Struct.new(:type, :default, :validate, :transform)
+  class Option < Struct.new(:type, :default, :validation, :transformation)
+    def valid?(value)
+      return true unless self.validation
+      self.validation === value
+    end
+
+    def transform(value)
+      return value unless self.transformation
+      self.transformation[value]
+    end
+  end
 end

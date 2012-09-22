@@ -10,8 +10,8 @@ module Configru
         instance_eval(&block)
       end
 
-      def option(name, type = Object, default = nil, validate = nil, &block)
-        option = Configru::Option.new(type, default, validate, nil)
+      def option(name, type = Object, default = nil, validation = nil, &block)
+        option = Configru::Option.new(type, default, validation, nil)
         Option.new(option, &block) if block
         @options[name.to_s] = option
       end
@@ -36,11 +36,11 @@ module Configru
       end
 
       def validate(v = nil, &block)
-        @option.validate = v || block
+        @option.validation = v || block
       end
 
       def transform(&block)
-        @option.transform = block
+        @option.transformation = block
       end
     end
   end

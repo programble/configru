@@ -1,6 +1,6 @@
 describe Configru::DSL::Option do
   before do
-    @option = Configru::Option.new(:type, :default, :validate, :transform)
+    @option = Configru::Option.new(:type, :default, :validation, :transformation)
   end
 
   it 'sets option type' do
@@ -24,7 +24,7 @@ describe Configru::DSL::Option do
       validate /example/
     end
 
-    @option.validate.should == /example/
+    @option.validation.should == /example/
   end
 
   it 'sets option validate block' do
@@ -34,19 +34,19 @@ describe Configru::DSL::Option do
       end
     end
 
-    @option.validate.should be_a(Proc)
-    @option.validate.call.should == :example
+    @option.validation.should be_a(Proc)
+    @option.validation.call.should == :example
   end
 
-  it 'sets option transofmr block' do
+  it 'sets option transform block' do
     described_class.new(@option) do
       transform do
         :example
       end
     end
 
-    @option.transform.should be_a(Proc)
-    @option.transform.call.should == :example
+    @option.transformation.should be_a(Proc)
+    @option.transformation.call.should == :example
   end
 end
 
@@ -75,8 +75,8 @@ describe Configru::DSL::OptionGroup do
 
     group.options['example'].type.should == Object
     group.options['example'].default.should be_nil
-    group.options['example'].validate.should be_nil
-    group.options['example'].transform.should be_nil
+    group.options['example'].validation.should be_nil
+    group.options['example'].transformation.should be_nil
   end
 
   it 'runs the Option DSL' do

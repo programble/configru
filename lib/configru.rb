@@ -19,10 +19,10 @@ module Configru
 
   class OptionValidationError < OptionError
     def initialize(path, validation = nil)
-      if validation
-        super(path, "failed validation `#{validation.inspect}`")
-      else
+      if validation.is_a?(Proc)
         super(path, "failed validation")
+      else
+        super(path, "failed validation `#{validation.inspect}`")
       end
     end
   end
@@ -84,17 +84,11 @@ module Configru
         raise OptionTypeError.new(@option_path, option.type, value.class)
       end
 
-      if option.validate.is_a? Proc
-        unless option.validate[value]
-          raise OptionValidationError.new(@option_path)
-        end
-      elsif option.validate
-        unless option.validate === value
-          raise OptionValidationError.new(@option_path, option.validate)
-        end
+      unless option.valid?(value)
+        raise OptionValidationError.new(@option_path, option.validation)
       end
 
-      output[key] = option.transform ? option.transform[value] : value
+      output[key] = option.transform(value)
 
       @option_path.pop
     end
