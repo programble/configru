@@ -58,6 +58,10 @@ describe Configru::DSL::OptionGroup do
 
     group.options.should have_key('example')
     group.options['example'].should be_a(Configru::Option)
+    group.options['example'].type.should == Object
+    group.options['example'].default.should be_nil
+    group.options['example'].validation.should be_nil
+    group.options['example'].transformation.should be_nil
   end
 
   it 'converts option names to strings' do
@@ -68,15 +72,25 @@ describe Configru::DSL::OptionGroup do
     group.options.should have_key('example')
   end
 
-  it 'creates a default option' do
+  it 'creates an option array' do
     group = described_class.new do
-      option 'example'
+      option_array 'example'
     end
 
+    group.options.should have_key('example')
+    group.options['example'].should be_a(Configru::OptionArray)
     group.options['example'].type.should == Object
-    group.options['example'].default.should be_nil
+    group.options['example'].default.should == []
     group.options['example'].validation.should be_nil
     group.options['example'].transformation.should be_nil
+  end
+
+  it 'converts option array names to strings' do
+    group = described_class.new do
+      option_array :example
+    end
+
+    group.options.should have_key('example')
   end
 
   it 'runs the Option DSL' do
@@ -84,9 +98,13 @@ describe Configru::DSL::OptionGroup do
       option 'example' do
         type String
       end
+      option_array 'example_array' do
+        type String
+      end
     end
 
     group.options['example'].type.should == String
+    group.options['example_array'].type.should == String
   end
 
   it 'creates a group' do

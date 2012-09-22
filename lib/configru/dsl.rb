@@ -16,6 +16,12 @@ module Configru
         @options[name.to_s] = option
       end
 
+      def option_array(name, type = Object, default = [], validation = nil, &block)
+        option = Configru::OptionArray.new(type, default, validation, nil)
+        Option.new(option, &block) if block
+        @options[name.to_s] = option
+      end
+
       def option_group(name, &block)
         @options[name.to_s] = OptionGroup.new(&block).options
       end

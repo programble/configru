@@ -125,4 +125,48 @@ describe Configru do
 
     Configru.example.should == 'example_dt'
   end
+
+  it 'checks that array option values are arrays' do
+    expect do
+      Configru.load(example_file :a) do
+        option_array :example
+      end
+    end.to raise_error(Configru::OptionTypeError)
+  end
+
+  it 'checks array option types' do
+    expect do
+      Configru.load(example_file :i) do
+        option_array :hetero, String
+      end
+    end.to raise_error(Configru::OptionTypeError)
+  end
+
+  it 'validates option arrays against values' do
+    expect do
+      Configru.load(example_file :i) do
+        option_array :example, Fixnum, [], 1..6
+      end
+    end.to raise_error(Configru::OptionValidationError)
+  end
+
+  it 'validates option arrays against blocks' do
+    expect do
+      Configru.load(example_file :i) do
+        option_array :example, Fixnum, [] do
+          validate {|x| x.even? }
+        end
+      end
+    end.to raise_error(Configru::OptionValidationError)
+  end
+
+  it 'applies transformations to option arrays' do
+    Configru.load(example_file :i) do
+      option_array :example, Fixnum, [] do
+        transform {|x| x + 1 }
+      end
+    end
+
+    Configru.example.should == [3, 5, 7, 8]
+  end
 end
