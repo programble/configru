@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0 (22 September 2012)
+
+ * Added option arrays
+ * Accessing a key that is not declared in `Configru.load` now raises
+   `NoMethodError`, rather than returning `nil`.
+
 ## 2.0.1 (14 September 2012)
 
  * Fix: Cascade options in loaded files
