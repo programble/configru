@@ -169,4 +169,12 @@ describe Configru do
 
     Configru.example.should == [3, 5, 7, 8]
   end
+
+  it 'requires required options' do
+    expect do
+      Configru.load(example_file :a) do
+        option_required :required
+      end
+    end.to raise_error(Configru::OptionRequiredError)
+  end
 end

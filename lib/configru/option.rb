@@ -1,5 +1,5 @@
 module Configru
-  class Option < Struct.new(:type, :default, :validation, :transformation)
+  module OptionMethods
     def type?(value)
       value.is_a?(self.type)
     end
@@ -13,6 +13,14 @@ module Configru
       return value unless self.transformation
       self.transformation[value]
     end
+  end
+
+  class Option < Struct.new(:type, :default, :validation, :transformation)
+    include OptionMethods
+  end
+
+  class RequiredOption < Struct.new(:type, :validation, :transformation)
+    include OptionMethods
   end
 
   class OptionArray < Option

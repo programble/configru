@@ -1,6 +1,6 @@
-describe Configru::DSL::Option do
+describe Configru::DSL::RequiredOption do
   before do
-    @option = Configru::Option.new(:type, :default, :validation, :transformation)
+    @option = Configru::RequiredOption.new(:type, :validation, :transformation)
   end
 
   it 'sets option type' do
@@ -9,14 +9,6 @@ describe Configru::DSL::Option do
     end
 
     @option.type.should == String
-  end
-
-  it 'sets option default' do
-    described_class.new(@option) do
-      default 'Example'
-    end
-
-    @option.default.should == 'Example'
   end
 
   it 'sets option validate value' do
@@ -50,6 +42,20 @@ describe Configru::DSL::Option do
   end
 end
 
+describe Configru::DSL::Option do
+  before do
+    @option = Configru::Option.new(:type, :default, :validation, :transformation)
+  end
+
+  it 'sets option default' do
+    described_class.new(@option) do
+      default 'Example'
+    end
+
+    @option.default.should == 'Example'
+  end
+end
+
 describe Configru::DSL::OptionGroup do
   it 'creates an option' do
     group = described_class.new do
@@ -67,6 +73,26 @@ describe Configru::DSL::OptionGroup do
   it 'converts option names to strings' do
     group = described_class.new do
       option :example
+    end
+
+    group.options.should have_key('example')
+  end
+
+  it 'creates a required option' do
+    group = described_class.new do
+      option_required 'example'
+    end
+
+    group.options.should have_key('example')
+    group.options['example'].should be_a(Configru::RequiredOption)
+    group.options['example'].type.should == Object
+    group.options['example'].validation.should be_nil
+    group.options['example'].transformation.should be_nil
+  end
+
+  it 'converts required option names to strings' do
+    group = described_class.new do
+      option_required :example
     end
 
     group.options.should have_key('example')

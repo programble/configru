@@ -11,6 +11,12 @@ module Configru
     end
   end
 
+  class OptionRequiredError < OptionError
+    def initialize(path)
+      super(path, 'option required')
+    end
+  end
+
   class OptionTypeError < OptionError
     def initialize(path, expected, got)
       super(path, "expected #{expected}, got #{got}")
@@ -76,6 +82,8 @@ module Configru
       elsif output.include? key # option has already been set
         @option_path.pop
         next
+      elsif option.is_a? RequiredOption
+        raise OptionRequiredError.new(@option_path)
       else # option has not been set
         value = option.default
       end
