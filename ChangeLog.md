@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.1.0 (28 October 2012)
+
+ * Added required options
+
 ## 3.0.0 (22 September 2012)
 
  * Added option arrays
