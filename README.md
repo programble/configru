@@ -15,7 +15,7 @@ require 'configru'
 
 Configru.load('config.yml') do
   option :username, String, 'example_user'
-  option :token, Fixnum, 1234
+  option_required :token, Fixnum
   option_group :connection do
     option :server, String, 'example.com'
     option :port, Fixnum, 42
@@ -24,22 +24,27 @@ Configru.load('config.yml') do
     transform {|x| File.expand_path(x) }
     validate {|x| File.directory?(x) }
   end
+  option_array :channels, String, ['foo', 'bar']
 end
 
 example = Example.new(Configru.connection.server, Configru.connection.port)
 example.login(Configru.username, Configru.token)
-example.sync(Configru.path)
+Configru.channels.each do |x|
+  example.sync(x, Configru.path)
+end
 ```
 
 These defaults are equivalent to the following YAML:
 
 ```yaml
 username: example_user
-token: 1234
 connection:
   server: example.com
   port: 42
 path: ~
+channels:
+  - foo
+  - bar
 ```
 
 # License
