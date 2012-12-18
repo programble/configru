@@ -6,7 +6,7 @@ YAML configuration file loader
 
 ```ruby
 # Gemfile
-gem "configru", "~> 2.0.0"
+gem "configru", "~> 3.1.0"
 ```
 ### Example
 
