@@ -116,6 +116,20 @@ describe Configru do
     end.to raise_error(Configru::OptionValidationError)
   end
 
+  it 'validates options against arrays' do
+    Configru.load(example_file :d) do
+      option :example, String, '', ['example_d']
+    end
+
+    Configru.example.should == 'example_d'
+
+    expect do
+      Configru.load(example_file :d) do
+        option :example, String, '', ['foo', 'bar']
+      end
+    end.to raise_error(Configru::OptionValidationError)
+  end
+
   it 'applies transformations to options' do
     Configru.load(example_file :d) do
       option :example, String, '' do

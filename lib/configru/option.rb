@@ -6,7 +6,11 @@ module Configru
 
     def valid?(value)
       return true unless self.validation
-      self.validation === value
+      if self.validation.is_a? Array
+        self.validation.include? value
+      else
+        self.validation === value
+      end
     end
 
     def transform(value)
@@ -32,9 +36,7 @@ module Configru
     def valid?(values)
       return true unless self.validation
       values.all? do |x|
-        # Use === instead of passing validation as the block to #all? so that
-        # non-block validations (Regexp, Range) work
-        self.validation === x
+        super(x)
       end
     end
 
