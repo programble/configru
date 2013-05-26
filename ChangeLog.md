@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.2.0 (25 May 2013)
+
+ * Validate values against arrays using `include?`
+
 ## 3.1.0 (28 October 2012)
 
  * Added required options
