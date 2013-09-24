@@ -6,7 +6,7 @@ YAML configuration file loader
 
 ```ruby
 # Gemfile
-gem "configru", "~> 3.1.0"
+gem "configru", "~> 3.3.0"
 ```
 ### Example
 
@@ -25,12 +25,13 @@ Configru.load('config.yml') do
     validate {|x| File.directory?(x) }
   end
   option_array :channels, String, ['foo', 'bar']
+  option_bool :force, false
 end
 
 example = Example.new(Configru.connection.server, Configru.connection.port)
 example.login(Configru.username, Configru.token)
 Configru.channels.each do |x|
-  example.sync(x, Configru.path)
+  example.sync(x, Configru.path, :force => Configru.force)
 end
 ```
 
@@ -45,11 +46,12 @@ path: ~
 channels:
   - foo
   - bar
+force: false
 ```
 
 # License
 
-Copyright (c) 2011-2012, Curtis McEnroe <programble@gmail.com>
+Copyright © 2011-2013, Curtis McEnroe <programble@gmail.com>
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
