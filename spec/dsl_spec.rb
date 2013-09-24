@@ -78,6 +78,19 @@ describe Configru::DSL::OptionGroup do
     group.options.should have_key('example')
   end
 
+  it 'creates a boolean option' do
+    group = described_class.new do
+      option_bool 'example', true
+    end
+
+    group.options.should have_key('example')
+    group.options['example'].should be_a(Configru::Option)
+    group.options['example'].type.should == Object
+    group.options['example'].default.should == true
+    group.options['example'].validation.should == [true, false]
+    group.options['example'].transformation.should be_nil
+  end
+
   it 'creates a required option' do
     group = described_class.new do
       option_required 'example'

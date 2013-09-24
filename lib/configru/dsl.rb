@@ -16,6 +16,10 @@ module Configru
         @options[name.to_s] = option
       end
 
+      def option_bool(name, default, &block)
+        option(name, Object, default, [true, false], &block)
+      end
+
       def option_required(name, type = Object, validation = nil, &block)
         option = Configru::RequiredOption.new(type, validation, nil)
         RequiredOption.new(option, &block) if block
