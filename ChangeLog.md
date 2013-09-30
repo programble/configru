@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.3.1 (29 September 2013)
+
+ * Added license to Gemspec
+
 ## 3.3.0 (24 September 2013)
 
  * Added boolean options
