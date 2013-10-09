@@ -10,6 +10,6 @@ module Configru
   end
 
   def self.method_missing(*args, &block)
-    @config.public_send(*args, &block)
+    @config.send(*args, &block)
   end
 end
