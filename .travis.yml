@@ -10,4 +10,4 @@ rvm:
 
 notifications:
   webhooks:
-    - http://rcmp.tenthbit.net/
+    - http://rcmp.pw/
