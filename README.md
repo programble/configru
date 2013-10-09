@@ -181,6 +181,20 @@ config = Configru::Config.new('/etc/config.yml', File.expand_path('~/config.yml'
 end
 ```
 
+### Reloading
+
+To reload configuration files, call the `reload` method on the
+`Configru::Config` object. Note that the entire DSL block will be
+re-evaluated.
+
+```ruby
+config = Configru::Config.new('config.yml') do
+  option :username, String, 'example_user'
+end
+
+config.reload
+```
+
 ### Global loading
 
 Since it can be tedious to pass around the `config` object all over an
@@ -200,6 +214,12 @@ way as on a `Configru::Config` object:
 ```ruby
 Configru.username
 Configru['username']
+```
+
+The global configuration can also be reloaded in the same way:
+
+```ruby
+Configru.reload
 ```
 
 # License
