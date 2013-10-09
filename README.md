@@ -4,13 +4,13 @@ YAML configuration file loader
 
 ## Usage
 
-Install the gem or add it to your `Gemfile`.
+Install the gem or add it to your `Gemfile`:
 
 ```ruby
 gem 'configru', '~> 3.3.0'
 ```
 
-Next, require it and load a configuration.
+Next, require it and load a configuration:
 
 ```ruby
 require 'configru'
