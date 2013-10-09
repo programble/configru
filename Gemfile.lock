@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    configru (3.3.1)
+    configru (3.4.0)
 
 GEM
   remote: https://rubygems.org/

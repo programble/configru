@@ -1,5 +1,10 @@
 # Change Log
 
+## 3.4.0 (8 October 2013)
+
+ * Added `Configru::Config` class
+ * Re-evaluate DSL block on reload
+
 ## 3.3.1 (29 September 2013)
 
  * Added license to Gemspec
