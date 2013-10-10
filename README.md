@@ -225,6 +225,13 @@ The global configuration can also be reloaded in the same way:
 Configru.reload
 ```
 
+Access to the underlying `Configru::Config` object of the global
+configuration is provided:
+
+```ruby
+Configru.config
+```
+
 # License
 
 Copyright © 2011-2013, Curtis McEnroe <programble@gmail.com>
