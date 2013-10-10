@@ -96,6 +96,14 @@ describe Configru::Config do
     end.to raise_error(Configru::OptionTypeError)
   end
 
+  it 'treats nil as if it were the right type' do
+    c = described_class.new do
+      option :string, String
+    end
+
+    c.string.should == nil
+  end
+
   it 'validates options against values' do
     expect do
       c = described_class.new(example_file :d) do

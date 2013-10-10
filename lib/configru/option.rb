@@ -1,7 +1,7 @@
 module Configru
   module OptionMethods
     def type?(value)
-      value.is_a?(self.type)
+      value.nil? || value.is_a?(self.type)
     end
 
     def valid?(value)
