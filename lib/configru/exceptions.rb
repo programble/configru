@@ -1,28 +1,28 @@
 module Configru
   class OptionError < RuntimeError
-    def initialize(path, message)
-      super("#{path.join('.')}: #{message}")
+    def initialize(file, path, message)
+      super("in #{file} at #{path.join('.')}: #{message}")
     end
   end
 
   class OptionRequiredError < OptionError
-    def initialize(path)
-      super(path, 'option required')
+    def initialize(file, path)
+      super(file, path, 'option required')
     end
   end
 
   class OptionTypeError < OptionError
-    def initialize(path, expected, got)
-      super(path, "expected #{expected}, got #{got}")
+    def initialize(file, path, expected, got)
+      super(file, path, "expected #{expected}, got #{got}")
     end
   end
 
   class OptionValidationError < OptionError
-    def initialize(path, validation = nil)
+    def initialize(file, path, validation)
       if validation.is_a?(Proc)
-        super(path, "failed validation")
+        super(file, path, 'failed validation')
       else
-        super(path, "failed validation `#{validation.inspect}`")
+        super(file, path, "failed validation `#{validation.inspect}`")
       end
     end
   end

@@ -24,6 +24,7 @@ module Configru
       # Load all defaults if no files were loaded
       # TODO: Some way to not special case this
       @option_path = Array.new
+      @file = '(none)'
       load_group(@options, self, {}) if loaded_files.empty?
     end
 
@@ -31,6 +32,7 @@ module Configru
 
     def load_file(file)
       @option_path = Array.new
+      @file = file
       load_group(@options, self, YAML.load_file(file) || {})
     end
 
@@ -41,7 +43,7 @@ module Configru
         # option is a group
         if option.is_a? Hash
           if input.has_key?(key) && !input[key].is_a?(Hash)
-            raise OptionTypeError.new(@option_path, Hash, input[key].class)
+            raise OptionTypeError.new(@file, @option_path, Hash, input[key].class)
           end
           group_output = output[key] || StructHash.new
           load_group(option, group_output, input[key] || {})
@@ -56,17 +58,17 @@ module Configru
           @option_path.pop
           next
         elsif option.is_a? RequiredOption
-          raise OptionRequiredError.new(@option_path)
+          raise OptionRequiredError.new(@file, @option_path)
         else # option has not been set
           value = option.default
         end
 
         unless option.type?(value)
-          raise OptionTypeError.new(@option_path, option.type, value.class)
+          raise OptionTypeError.new(@file, @option_path, option.type, value.class)
         end
 
         unless option.valid?(value)
-          raise OptionValidationError.new(@option_path, option.validation)
+          raise OptionValidationError.new(@file, @option_path, option.validation)
         end
 
         output[key] = option.transform(value)
