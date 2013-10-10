@@ -7,7 +7,7 @@ YAML configuration file loader
 Install the gem or add it to your `Gemfile`:
 
 ```ruby
-gem 'configru', '~> 3.5.0'
+gem 'configru', '~> 3.6.0'
 ```
 
 Next, require it and load a configuration:

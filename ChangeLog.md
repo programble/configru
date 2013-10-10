@@ -1,5 +1,10 @@
 # Change Log
 
+## 3.6.0 (10 October 2013)
+
+ * Added `Configru.config` to access global `Config` object
+ * Modified inspect for `Config` to be different from `Hash`
+
 ## 3.5.0 (9 October 2013)
 
  * Treat `nil` as being the correct type
