@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.5.0 (9 October 2013)
+
+ * Treat `nil` as being the correct type
+
 ## 3.4.0 (8 October 2013)
 
  * Added `Configru::Config` class
