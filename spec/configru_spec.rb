@@ -8,4 +8,9 @@ describe Configru do
     Configru.example.should == 'example'
     expect { Configru.idonotexist }.to raise_error(NoMethodError)
   end
+
+  it 'allows access to underlying Config object' do
+    Configru.load { }
+    Configru.config.should be_a(Configru::Config)
+  end
 end

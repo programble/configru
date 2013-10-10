@@ -1,6 +1,10 @@
 require 'configru/config'
 
 module Configru
+  def self.config
+    @config
+  end
+
   def self.load(*files, &block)
     @config = Config.new(*files, &block)
   end
