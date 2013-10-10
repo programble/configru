@@ -33,7 +33,10 @@ end
 ```
 
 `option` takes 4 arguments: the configuration key, the type of value,
-the default value, and an optional validation check.
+the default value, and a validation check. The type defaults to
+`Object`, the default value defaults to `nil` and the validation check
+defaults to nothing. Note that a value of `nil` will be treated as the
+correct type regardless of the specified type.
 
 The configuration option above can then be accessed in two ways:
 
