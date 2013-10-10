@@ -28,6 +28,10 @@ module Configru
       load_group(@options, self, {}) if loaded_files.empty?
     end
 
+    def inspect
+      "#<#{self.class} #{super}>"
+    end
+
     private
 
     def load_file(file)
