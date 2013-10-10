@@ -207,4 +207,9 @@ describe Configru::Config do
 
     foo.should == 2
   end
+
+  it 'inspects different than Hash' do
+    c = described_class.new { }
+    c.inspect.should_not == Hash.new.inspect
+  end
 end
