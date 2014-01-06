@@ -202,7 +202,7 @@ config.reload
 
 Since it can be tedious to pass around the `config` object all over an
 application in order to have access to the configuration, the `Configru`
-module itself can be used a `Configru::Config` object with the `load`
+module itself can be used as a `Configru::Config` object with the `load`
 method.
 
 ```ruby
