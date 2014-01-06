@@ -45,7 +45,7 @@ config.username
 config['username']
 ```
 
-If the value in `config.yml` is a `String`, a
+If the value in `config.yml` is not a `String`, a
 `Configru::OptionTypeError` will be raised. If the value does not pass
 the validation check, a `Configru::OptionValidationError` will be
 raised.
