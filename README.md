@@ -119,7 +119,7 @@ end
 
 Since Ruby's `true` and `false` do not share a class such as `Boolean`,
 Configru provides a convenience method for boolean options,
-`option_bool`. It take only an option key and a default value as
+`option_bool`. It takes only an option key and a default value as
 arguments.
 
 ```ruby
